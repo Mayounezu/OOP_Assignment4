@@ -108,9 +108,13 @@ class SimulationIntegrationTest {
         // In 16 ticks Snape completes 2 full cycles → 6 state-entry prints
         Main.runSimulation(16);
         String output = captured();
-        // "Snape" (the string) appears 4 times, "Severus Snape" 2 times
-        assertEquals(4, countOccurrences(output, "Snape\n".replace("\n", NL)));
-        assertEquals(2, countOccurrences(output, "Severus Snape"));
+        // The line "Snape" appears 4 times (t=1,3,9,11) and the line
+        // "Severus Snape" appears 2 times (t=5,13). Count whole lines so that
+        // the "Snape" suffix inside "Severus Snape" is not double-counted.
+        long standaloneSnape = output.lines().filter(line -> line.equals("Snape")).count();
+        long severusSnape = output.lines().filter(line -> line.equals("Severus Snape")).count();
+        assertEquals(4, standaloneSnape);
+        assertEquals(2, severusSnape);
     }
 
     // -----------------------------------------------------------------------

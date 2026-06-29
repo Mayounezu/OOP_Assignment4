@@ -16,8 +16,8 @@ package com.mysteryticking;
  *   <li>CycleSeparator — lambda printing a blank line when {@code tick % 8 == 0}</li>
  * </ol>
  *
- * <p>Also demonstrates the bonus {@link FiniteEntity} and
- * {@link ConditionalEntity} classes in the {@link #runBonusDemo(int)} method.
+ * <p>The bonus {@link FiniteEntity} and {@link ConditionalEntity} features are
+ * demonstrated separately in {@link BonusMain}.
  */
 public class Main {
 
@@ -93,33 +93,6 @@ public class Main {
                 System.out.println();
             }
         });
-
-        bomb.start();
-    }
-
-    /**
-     * BONUS DEMO: Demonstrates {@link FiniteEntity} and {@link ConditionalEntity}.
-     * Run this method separately to see the bonus features in action.
-     *
-     * @param countdown number of ticks for the bonus simulation
-     */
-    public static void runBonusDemo(int countdown) {
-        System.out.println("=== BONUS DEMO (countdown=" + countdown + ") ===");
-        PipeBomb bomb = new PipeBomb(countdown);
-
-        // FiniteEntity: Ron fires at most 3 times, then silently disappears
-        TickListener ronSme = new StateMachineEntity("Ron", 1,
-                new State("Ron", 2),
-                new State("Ron Weasly", 4));
-        bomb.register(new FiniteEntity(ronSme, bomb, 3));
-
-        // ConditionalEntity: prints on every tick divisible by 7
-        bomb.register(new ConditionalEntity(
-                t -> t % 7 == 0, "Dobby is free!"));
-
-        // ConditionalEntity: prints on ticks 13 and 42
-        bomb.register(new ConditionalEntity(
-                t -> t == 13 || t == 42, "Avada Kedavra!"));
 
         bomb.start();
     }
